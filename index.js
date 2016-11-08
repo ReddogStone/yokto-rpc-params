@@ -5,6 +5,9 @@ const assert = require('assert');
 const StringProto = {
 };
 
+const EnumProto = {
+};
+
 const ParameterProto = {
 	get optional() {
 		return Object.assign(Object.create(ParameterProto), this, {
@@ -18,6 +21,12 @@ const ParameterProto = {
 		return Object.assign(Object.create(StringProto), this, {
 			description: Object.assign({}, this.description, { type: 'string' }),
 			_test: value => typeof value === 'string'
+		});
+	},
+	oneOf: function(...values) {
+		return Object.assign(Object.create(EnumProto), this, {
+			description: Object.assign({}, this.description, { type: 'enum', values: values }),
+			_test: value => values.indexOf(value) >= 0
 		});
 	}
 };
