@@ -122,6 +122,6 @@ module.exports = function(name) {
 		test: function(value) {
 			return this._test(value);
 		},
-		_test: value => value !== undefined ? { ok: true } : { valueUndefined: true }
+		_test: value => value !== undefined ? { ok: true } : { isUndefined: true }
 	}, ParameterProto);
 };

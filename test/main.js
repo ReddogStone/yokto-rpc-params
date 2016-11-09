@@ -174,7 +174,7 @@ describe('Parameter', function() {
 	describe('tests negative for', function() {
 		it('a basic parameter and an undefined value', function() {
 			let p = Parameter('name');
-			assert(p.test().valueUndefined);
+			assert(p.test().isUndefined);
 		});
 		it('a string parameter and a non-string value', function() {
 			let p = Parameter('name').string;
