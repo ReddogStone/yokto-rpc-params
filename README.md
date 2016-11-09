@@ -18,7 +18,7 @@ p.test(100.1);      // false - not integer
 p.test(9);          // false - integer, but value <10
 p.test(101);        // false - integer, but value >100
 
-let p = Parameter('foo')
+p = Parameter('foo')
 	.object.property('bar').property('baz');
 
 p.description;              // { type: 'object', properties: [ 'bar', 'baz' ] }
