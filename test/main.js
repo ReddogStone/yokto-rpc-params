@@ -71,6 +71,21 @@ describe('Parameter', function() {
 			let p = Parameter('name').object;
 			assert.equal(p.description.type, 'object');
 		});
+		it('an object parameter with a mandatory property', function() {
+			let p = Parameter('name').object.property('prop');
+			assert.equal(p.description.properties.length, 1);
+			assert.equal(p.description.properties[0], 'prop');
+		});
+		it('an object parameter with two mandatory properties', function() {
+			let p = Parameter('name').object.property('foo').property('bar');
+			assert.equal(p.description.properties.length, 2);
+			assert.equal(p.description.properties[0], 'foo');
+			assert.equal(p.description.properties[1], 'bar');
+		});
+		it('a boolean parameter', function() {
+			let p = Parameter('name').boolean;
+			assert.equal(p.description.type, 'boolean');
+		});
 	});
 
 	describe('tests positive for', function() {
@@ -142,6 +157,18 @@ describe('Parameter', function() {
 			let p = Parameter('name').object;
 			assert(p.test([]));
 		});
+		it('an object parameter with a mandatory property and a corresponding value', function() {
+			let p = Parameter('name').object.property('prop');
+			assert(p.test({ prop: 'foo' }));
+		});
+		it('a boolean parameter with a true value', function() {
+			let p = Parameter('name').boolean;
+			assert(p.test(true));
+		});
+		it('a boolean parameter with a false value', function() {
+			let p = Parameter('name').boolean;
+			assert(p.test(false));
+		});
 	});
 
 	describe('tests negative for', function() {
@@ -197,6 +224,17 @@ describe('Parameter', function() {
 			let p = Parameter('name').object;
 			assert(!p.test(null));
 		});
-});
-
+		it('an object parameter with a mandatory property and a value without this property', function() {
+			let p = Parameter('name').object.property('prop');
+			assert(!p.test({}));
+		});
+		it('an object parameter with a mandatory property and a value with this property undefined', function() {
+			let p = Parameter('name').object.property('prop');
+			assert(!p.test({ prop: undefined }));
+		});
+		it('a boolean parameter with a non-boolean value', function() {
+			let p = Parameter('name').boolean;
+			assert(!p.test('Foo'));
+		});
+	});
 });

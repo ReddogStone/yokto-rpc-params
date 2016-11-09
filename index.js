@@ -8,6 +8,9 @@ function assign(obj, proto, description, other) {
 	}, other);
 }
 
+const BoolProto = {
+};
+
 const StringProto = {
 };
 
@@ -18,6 +21,13 @@ const ArrayProto = {
 };
 
 const ObjectProto = {
+	property: function(propertyName) {
+		return assign(this, ObjectProto, {
+			properties: (this.description.properties || []).concat(propertyName)
+		}, {
+			_test: value => this._test(value) && (value[propertyName] !== undefined)
+		});		
+	}
 };
 
 const NumberProto = {
@@ -39,6 +49,11 @@ const ParameterProto = {
 			test: function(value) {
 				return (value === undefined) ? true : this._test(value);
 			}
+		});
+	},
+	get boolean() {
+		return assign(this, BoolProto, { type: 'boolean' }, {
+			_test: value => typeof value === 'boolean'
 		});
 	},
 	get string() {
